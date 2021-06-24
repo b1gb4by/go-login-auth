@@ -1,0 +1,35 @@
+version: '3.8'
+services: 
+  api:
+    build:
+      context: .
+      target: builder
+      dockerfile: build/api/Dockerfile
+    container_name: go-login-auth-api
+    image: go-login-auth-api
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    volumes:
+      - "./app:/go/src/app"
+    env_file:
+      - ".env"
+    depends_on:
+      - db
+  ui:
+    build:
+      context: .
+      dockerfile: build/ui/Dockerfile
+    container_name: go-login-auth-ui
+    image: go-login-auth-ui
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    volumes:
+      - ./ui:/app
+    command: npm run serve
+  db:
+    restart: always
+    build:
+      context: .
+      dockerfile: build/db/Dockerfile
+
+
