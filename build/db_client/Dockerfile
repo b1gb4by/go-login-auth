@@ -1,0 +1,6 @@
+FROM phpmyadmin:latest
+
+ENV PMA_ARBITRARY=1
+ENV PMA_HOST=mysql
+ENV PMA_USER=admin
+ENV PMA_PASSWORD=admin

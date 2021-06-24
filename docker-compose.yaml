@@ -10,26 +10,47 @@ services:
     ports:
       - "${API_PORT}:${API_PORT}"
     volumes:
-      - "./app:/go/src/app"
+      - "./app/api:/go/src/app"
     env_file:
       - ".env"
     depends_on:
       - db
-  ui:
+    links: 
+      - smtp
+  frontend:
     build:
       context: .
-      dockerfile: build/ui/Dockerfile
+      dockerfile: build/frontend/Dockerfile
     container_name: go-login-auth-ui
     image: go-login-auth-ui
     ports:
       - "${APP_PORT}:${APP_PORT}"
     volumes:
-      - ./ui:/app
+      - ./app/frontend:/app
     command: npm run serve
   db:
     restart: always
     build:
       context: .
       dockerfile: build/db/Dockerfile
-
-
+    container_name: go-login-auth-db
+    image: go-login-auth-db
+    ports: 
+      - "${DB_PORT}:${DB_PORT}"
+  db_client:
+    build:
+      context: .
+      dockerfile: build/db_client/Dockerfile
+    container_name: go-login-auth-db-client
+    image: go-login-auth-db-client
+    links:
+      - db
+    ports: 
+      - "${DB_CLIENT_PORT}:80"
+  smtp:
+    build:
+      context: .
+      dockerfile: build/smtp/Dockerfile
+    ports: 
+      - "${HTTP_SERVER}:${HTTP_SERVER}"
+      - "${SMTP_SERVER}:${SMTP_SERVER}"
