@@ -9,9 +9,9 @@ RUN apk --no-cache add git \
     && go get github.com/google/wire/cmd/wire
 COPY go.* ./
 RUN go mod download
-COPY app/ ./
-RUN go build main.go wire_gen.go
-CMD ["air", "wire_gen.go"]
+COPY api/ ./
+RUN go build main.go
+CMD ["air"]
 
 ###############################
 # Release Container
