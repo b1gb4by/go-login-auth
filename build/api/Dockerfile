@@ -7,7 +7,7 @@ WORKDIR /go/src/app/
 RUN apk --no-cache add git \
     && go get -u github.com/cosmtrek/air \
     && go get github.com/google/wire/cmd/wire
-COPY go.* ./
+COPY api/go.* ./
 RUN go mod download
 COPY api/ ./
 RUN go build main.go

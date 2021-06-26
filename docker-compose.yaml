@@ -1,5 +1,5 @@
-version: '3.8'
-services: 
+version: "3.8"
+services:
   api:
     build:
       context: .
@@ -10,13 +10,14 @@ services:
     ports:
       - "${API_PORT}:${API_PORT}"
     volumes:
-      - ./api:/go/src/app/
+      - ./api:/go/src/app
     env_file:
       - ".env"
     depends_on:
       - db
-    links: 
+    links:
       - smtp
+
   ui:
     build:
       context: .
@@ -28,6 +29,7 @@ services:
     volumes:
       - ./ui:/app
     command: npm run serve
+
   db:
     restart: always
     build:
@@ -35,10 +37,13 @@ services:
       dockerfile: build/db/Dockerfile
     container_name: go-login-auth-db
     image: go-login-auth-db
-    ports: 
+    ports:
       - "${MYSQL_PORT}:${MYSQL_PORT}"
-    volumes: 
+    volumes:
+      - ./build/db/data:/var/lib/mysql
       - ./build/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./build/db/sql:/docker-entrypoint-initdb.d
+
   db_client:
     build:
       context: .
@@ -47,12 +52,13 @@ services:
     image: go-login-auth-db-client
     links:
       - db
-    ports: 
+    ports:
       - "${DB_CLIENT_PORT}:80"
+
   smtp:
     build:
       context: .
       dockerfile: build/smtp/Dockerfile
-    ports: 
+    ports:
       - "${HTTP_SERVER}:${HTTP_SERVER}"
       - "${SMTP_SERVER}:${SMTP_SERVER}"
