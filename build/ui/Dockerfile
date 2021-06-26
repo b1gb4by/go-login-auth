@@ -9,6 +9,6 @@ RUN apk update && \
     npm install -g npm && \
     npm install -g vue-cli
 
-ADD ./ui/package*.json ./app
+ADD ./ui/package*.json /app
 
 RUN npm install
