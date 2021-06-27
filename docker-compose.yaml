@@ -37,6 +37,12 @@ services:
       dockerfile: build/db/Dockerfile
     container_name: go-login-auth-db
     image: go-login-auth-db
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      TZ: Asia/Tokyo
     ports:
       - "${MYSQL_PORT}:${MYSQL_PORT}"
     volumes:
