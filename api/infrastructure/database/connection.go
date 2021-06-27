@@ -18,8 +18,8 @@ func NewConnection(c *config.DBConfig) Connection {
 	var dbConn Connection
 	var err error
 
-	connStr := "%s:%s@tcp(mysql:%s)/%s?charset=utf8&parseTime=True"
-	dsn := fmt.Sprintf(connStr, c.User, c.Password, c.PORT, c.Database)
+	schema := "%s:%s@tcp(mysql:%s)/%s?charset=utf8&parseTime=True"
+	dsn := fmt.Sprintf(schema, c.User, c.Password, c.PORT, c.Database)
 
 	dbConn.Users, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(c.DBLogLevel),
