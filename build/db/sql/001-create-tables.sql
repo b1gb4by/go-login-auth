@@ -1,28 +1,28 @@
 ---- DROP ----
-drop schema if exists go_auth;
+DROP DATBASE IF EXISTS go_auth;
 
-create schema go_auth;
+CREATE DATABASE IF NOT EXISTS go_auth;
 
-use go_auth;
+USE go_auth;
 
-drop table if exists `users`;
+DROP TABLE IF EXISTS users;
 
 ---- CREATE ----
-create table if not exists `users` (
-    `id` int(20) auto_increment,
-    `first_name` varchar(255),
-    `last_name` varchar(255),
-    `email` varchar(255),
-    `password` varchar(255),
-    `created_at` datetime default current_timestamp,
-    `updated_at` default current_timestamp on update current_timestamp,
-    primary key(`id`)
-) default charset = utf8 collate = utf8_bin;
+CREATE TABLE IF NOT EXISTS users (
+    id          INT(20)         NOT NULL AUTO_INCREMENT,
+    first_name  VARCHAR(255)    NOT NULL,
+    last_name   VARCHAR(255)    NOT NULL,
+    email       VARCHAR(255)    NOT NULL,
+    password    VARCHAR(255)    NOT NULL,
+    created_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(`id`)
+);
 
 ---- INSERT ----
-insert into
+INSERT INTO
     users (first_name, last_name, email, password)
-values
+VALUES
     (
         "Alan",
         "Bob",
@@ -30,9 +30,9 @@ values
         "test_password"
     );
 
-insert into
+INSERT INTO
     users (first_name, last_name, email, password)
-values
+VALUES
     (
         "Callen",
         "Den",
