@@ -2,7 +2,7 @@ package http
 
 import (
 	"api/interface/controller"
-	"app/util"
+	"api/util"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -27,10 +27,8 @@ func (r *Routing) SetRouting() {
 
 	b := r.Router.PathPrefix("/go_auth").Subrouter()
 
-	// 死活監視
 	b.HandleFunc("/health_check", r.Controllers.HealthCheck.HealthCheck).Methods(http.MethodGet)
 
 	logger.Printf("%s", "Mux Routers Start.")
-	// 接続できない場合、プログラムを終了
 	logger.Fatalf("%s", http.ListenAndServe(":"+r.Port, b))
 }
