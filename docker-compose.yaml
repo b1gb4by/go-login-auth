@@ -12,7 +12,7 @@ services:
     volumes:
       - ./api:/go/src/app
     env_file:
-      - ".env.api"
+      - ".env"
     depends_on:
       - db
     links:
@@ -53,7 +53,7 @@ services:
       - db
     ports:
       - "${DB_CLIENT_PORT}:80"
-    volumes: 
+    volumes:
       - ./build/db_client/sessions:/sessions
   smtp:
     build:
