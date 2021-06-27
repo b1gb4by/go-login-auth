@@ -1,4 +1,4 @@
-FROM phpmyadmin:latest
+FROM phpmyadmin/phpmyadmin:latest
 
 ENV PMA_ARBITRARY=1
 ENV PMA_HOST=mysql
