@@ -8,3 +8,5 @@ ENV MYSQL_DB_LOG_LEVEL=4
 ENV TZ=Asia/Tokyo
 
 EXPOSE 3306
+
+CMD ["mysqld"]
