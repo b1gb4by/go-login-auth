@@ -12,12 +12,13 @@ services:
     volumes:
       - ./api:/go/src/app
     env_file:
-      - ".env"
+      - ".env.api"
     depends_on:
       - db
     links:
       - smtp
-
+    stdin_open: true
+    tty: true
   ui:
     build:
       context: .
@@ -29,7 +30,6 @@ services:
     volumes:
       - ./ui:/app
     command: npm run serve
-
   db:
     restart: always
     build:
@@ -43,7 +43,6 @@ services:
       - ./build/db/data:/var/lib/mysql
       - ./build/db/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./build/db/sql:/docker-entrypoint-initdb.d
-
   db_client:
     build:
       context: .
@@ -54,7 +53,8 @@ services:
       - db
     ports:
       - "${DB_CLIENT_PORT}:80"
-
+    volumes: 
+      - ./build/db_client/sessions:/sessions
   smtp:
     build:
       context: .
