@@ -10,6 +10,7 @@ import (
 type DBConfig struct {
 	User       string          `split_words:"true" required:"true"`
 	Password   string          `split_words:"true" required:"true"`
+	Host       string          `split_words:"true" required:"true"`
 	Database   string          `split_words:"true" required:"true"`
 	PORT       string          `required:"true" split_words:"true"`
 	DBLogLevel logger.LogLevel `required:"true" split_words:"true"`
