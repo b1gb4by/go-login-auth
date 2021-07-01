@@ -1,13 +1,8 @@
----- DROP ----
-DROP DATBASE IF EXISTS go_auth;
-
+DROP DATABASE IF EXISTS go_auth;
 CREATE DATABASE IF NOT EXISTS go_auth;
-
 USE go_auth;
 
 DROP TABLE IF EXISTS users;
-
----- CREATE ----
 CREATE TABLE IF NOT EXISTS users (
     id          INT(20)         NOT NULL AUTO_INCREMENT,
     first_name  VARCHAR(255)    NOT NULL,
@@ -19,7 +14,6 @@ CREATE TABLE IF NOT EXISTS users (
     PRIMARY KEY(`id`)
 );
 
----- INSERT ----
 INSERT INTO
     users (first_name, last_name, email, password)
 VALUES
