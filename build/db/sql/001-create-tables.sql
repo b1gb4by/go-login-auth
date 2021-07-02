@@ -8,28 +8,9 @@ CREATE TABLE IF NOT EXISTS users (
     first_name  VARCHAR(255)    NOT NULL,
     last_name   VARCHAR(255)    NOT NULL,
     email       VARCHAR(255)    NOT NULL,
-    password    VARCHAR(255)    NOT NULL,
+    password    LONGTEXT        NOT NULL,
     created_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY(`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `email` (`email`)
 );
-
-INSERT INTO
-    users (first_name, last_name, email, password)
-VALUES
-    (
-        "Alan",
-        "Bob",
-        "alan@example.com",
-        "test_password"
-    );
-
-INSERT INTO
-    users (first_name, last_name, email, password)
-VALUES
-    (
-        "Callen",
-        "Den",
-        "callen@example.com",
-        "test_password1"
-    );
