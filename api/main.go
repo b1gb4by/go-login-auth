@@ -8,13 +8,12 @@ import (
 
 func main() {
 	dbConf := config.NewDBConfig()
-	// DB
 	db := database.NewConnection(dbConf)
 	defer db.Close()
 
 	app := config.NewAppConfig()
 
-	ctrls := InitializeControllers(db)
+	ctrls := InitializeControllers(db, dbConf.Table)
 
 	routing := http.NewRouting(ctrls, app.Port)
 	routing.SetRouting()

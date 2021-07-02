@@ -8,21 +8,26 @@ package main
 import (
 	"api/infrastructure/database"
 	"api/interface/controller"
+	"api/interface/gateway"
+	"api/usecase/interactor"
 	"github.com/google/wire"
 )
 
 // Injectors from wire.go:
 
-func InitializeControllers(db database.Connection) *controller.AppController {
+func InitializeControllers(db database.Connection, table string) *controller.AppController {
+	registerUserRepository := gateway.NewRegisterUserGateway(db, table)
+	registerUserInteractor := interactor.NewRegisterUserInteractor(registerUserRepository)
+	registerUserController := controller.NewRegisterUserController(registerUserInteractor)
 	healthCheckController := controller.NewHealthCheckController(db)
-	appController := controller.NewControllers(healthCheckController)
+	appController := controller.NewControllers(registerUserController, healthCheckController)
 	return appController
 }
 
 // wire.go:
 
-var controllerSet = wire.NewSet(controller.NewControllers, controller.NewHealthCheckController)
+var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewHealthCheckController)
 
-var interactorSet = wire.NewSet()
+var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor)
 
-var gatewaySet = wire.NewSet()
+var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway)

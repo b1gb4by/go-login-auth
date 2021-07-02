@@ -1,9 +1,8 @@
 package model
 
 type User struct {
-	ID        uint
-	FirstName string
-	LastName  string
-	Email     string
-	Password  string
+	FirstName string `gorm:"column:first_name"`
+	LastName  string `gorm:"column:last_name"`
+	Email     string `gorm:"column:email"`
+	Password  []byte `gorm:"column:password"`
 }

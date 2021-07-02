@@ -9,12 +9,17 @@ import (
 )
 
 type AppController struct {
-	HealthCheck *HealthCheckController
+	RegisterUser *RegisterUserController
+	HealthCheck  *HealthCheckController
 }
 
-func NewControllers(hc *HealthCheckController) *AppController {
+func NewControllers(
+	ru *RegisterUserController,
+	hc *HealthCheckController,
+) *AppController {
 	return &AppController{
-		HealthCheck: hc,
+		RegisterUser: ru,
+		HealthCheck:  hc,
 	}
 }
 
