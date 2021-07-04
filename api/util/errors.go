@@ -74,6 +74,18 @@ func GetErrorResponse(apiID string, ec ErrorCode) (errorResponse, int) {
 	case ErrorCode10002:
 		status = http.StatusInternalServerError
 		res.ErrorMessage = "Failed to insert data"
+	case ErrorCode10003:
+		status = http.StatusInternalServerError
+		res.ErrorMessage = "Failed to retrieve data"
+	case ErrorCode10004:
+		status = http.StatusNotFound
+		res.ErrorMessage = "User not found"
+	case ErrorCode10005:
+		status = http.StatusBadRequest
+		res.ErrorMessage = "Incorrect password"
+	case ErrorCode10006:
+		status = http.StatusInternalServerError
+		res.ErrorMessage = "Failed to get token"
 	default:
 		status = http.StatusInternalServerError
 		res.ErrorMessage = "Unknown error"

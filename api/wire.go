@@ -14,15 +14,18 @@ import (
 var controllerSet = wire.NewSet(
 	controller.NewControllers,
 	controller.NewRegisterUserController,
+	controller.NewLoginAuthenticationController,
 	controller.NewHealthCheckController,
 )
 
 var interactorSet = wire.NewSet(
 	interactor.NewRegisterUserInteractor,
+	interactor.NewLoginAuthenticationInteractor,
 )
 
 var gatewaySet = wire.NewSet(
 	gateway.NewRegisterUserGateway,
+	gateway.NewLoginAuthenticationGateway,
 )
 
 func InitializeControllers(db database.Connection, table string) *controller.AppController {

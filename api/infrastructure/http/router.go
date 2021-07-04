@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 type Routing struct {
@@ -25,11 +26,14 @@ func NewRouting(ctrls *controller.AppController, port string) *Routing {
 func (r *Routing) SetRouting() {
 	logger := util.NewStdLogger()
 
-	b := r.Router.PathPrefix("/auth").Subrouter()
+	l := r.Router.PathPrefix("/login").Subrouter()
 
-	b.HandleFunc("/register", r.Controllers.RegisterUser.RegisterUser).Methods(http.MethodPost)
-	b.HandleFunc("/health_check", r.Controllers.HealthCheck.HealthCheck).Methods(http.MethodGet)
+	l.HandleFunc("/register", r.Controllers.RegisterUser.RegisterUser).Methods(http.MethodPost)
+	l.HandleFunc("/auth", r.Controllers.LoginAuthentication.LoginAuthentication).Methods(http.MethodPost)
+	l.HandleFunc("/health_check", r.Controllers.HealthCheck.HealthCheck).Methods(http.MethodGet)
+
+	c := cors.Default().Handler(l)
 
 	logger.Printf("%s", "Mux Routers Start.")
-	logger.Fatalf("%s", http.ListenAndServe(":"+r.Port, b))
+	logger.Fatalf("%s", http.ListenAndServe(":"+r.Port, c))
 }

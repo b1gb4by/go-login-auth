@@ -19,15 +19,18 @@ func InitializeControllers(db database.Connection, table string) *controller.App
 	registerUserRepository := gateway.NewRegisterUserGateway(db, table)
 	registerUserInteractor := interactor.NewRegisterUserInteractor(registerUserRepository)
 	registerUserController := controller.NewRegisterUserController(registerUserInteractor)
+	loginAuthenticationRepository := gateway.NewLoginAuthenticationGateway(db, table)
+	loginAuthenticationInteractor := interactor.NewLoginAuthenticationInteractor(loginAuthenticationRepository)
+	loginAuthenticationController := controller.NewLoginAuthenticationController(loginAuthenticationInteractor)
 	healthCheckController := controller.NewHealthCheckController(db)
-	appController := controller.NewControllers(registerUserController, healthCheckController)
+	appController := controller.NewControllers(registerUserController, loginAuthenticationController, healthCheckController)
 	return appController
 }
 
 // wire.go:
 
-var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewHealthCheckController)
+var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewHealthCheckController)
 
-var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor)
+var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor, interactor.NewLoginAuthenticationInteractor)
 
-var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway)
+var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway, gateway.NewLoginAuthenticationGateway)
