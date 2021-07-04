@@ -16,10 +16,10 @@ func IsPasswordMatch(inputPassword string, password []byte) error {
 	return nil
 }
 
-func CreateJWT(id int) (string, error) {
+func CreateJWT(id int, secret string) (string, error) {
 
 	var expiresAt = jwt.NewTime(60 * 60 * 24)
-	var mySigningKey = []byte("secret")
+	var mySigningKey = []byte(secret)
 
 	claims := &jwt.StandardClaims{
 		Issuer:    strconv.Itoa(id),

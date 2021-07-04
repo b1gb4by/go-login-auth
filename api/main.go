@@ -12,8 +12,9 @@ func main() {
 	defer db.Close()
 
 	app := config.NewAppConfig()
+	JWTConfig := config.NewJWTConfig()
 
-	ctrls := InitializeControllers(db, dbConf.Table)
+	ctrls := InitializeControllers(db, dbConf.Table, JWTConfig)
 
 	routing := http.NewRouting(ctrls, app.Port)
 	routing.SetRouting()
