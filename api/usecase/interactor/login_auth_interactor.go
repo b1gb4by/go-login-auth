@@ -1,22 +1,28 @@
 package interactor
 
 import (
+	"api/config"
 	"api/domain/model"
 	"api/domain/service"
 	"api/usecase/repository"
 )
 
 type loginAuthenticationInteractor struct {
-	r repository.LoginAuthenticationRepository
+	r  repository.LoginAuthenticationRepository
+	jc *config.JWTConfig
 }
 
 type LoginAuthenticationInteractor interface {
 	LoginAuthentication(req model.LoginAuthenticationRequestParam) (model.AcquisitionUser, string, error)
 }
 
-func NewLoginAuthenticationInteractor(r repository.LoginAuthenticationRepository) LoginAuthenticationInteractor {
+func NewLoginAuthenticationInteractor(
+	r repository.LoginAuthenticationRepository,
+	jc *config.JWTConfig,
+) LoginAuthenticationInteractor {
 	return &loginAuthenticationInteractor{
-		r: r,
+		r:  r,
+		jc: jc,
 	}
 }
 
@@ -36,7 +42,7 @@ func (i *loginAuthenticationInteractor) LoginAuthentication(
 		return user, token, err
 	}
 
-	token, err = service.CreateJWT(user.ID)
+	token, err = service.CreateJWT(user.ID, i.jc.Secret)
 	if err != nil {
 		return user, token, err
 	}
