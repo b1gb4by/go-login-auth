@@ -61,7 +61,7 @@ func (ctrl *LoginAuthenticationController) LoginAuthentication(w http.ResponseWr
 		return
 	}
 
-	token, err := ctrl.i.LoginAuthentication(req)
+	user, token, err := ctrl.i.LoginAuthentication(req)
 	if err != nil {
 		logger.Errorf("%s", err)
 		errorCode := util.GetErrorCode(err)
@@ -76,6 +76,6 @@ func (ctrl *LoginAuthenticationController) LoginAuthentication(w http.ResponseWr
 			HttpOnly: true,
 		}
 		http.SetCookie(w, cookie)
-		responseJSON(w, http.StatusNoContent, "")
+		responseJSON(w, http.StatusOK, user)
 	}
 }

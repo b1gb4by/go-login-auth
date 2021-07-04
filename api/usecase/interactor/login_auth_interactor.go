@@ -11,7 +11,7 @@ type loginAuthenticationInteractor struct {
 }
 
 type LoginAuthenticationInteractor interface {
-	LoginAuthentication(req model.LoginAuthenticationRequestParam) (string, error)
+	LoginAuthentication(req model.LoginAuthenticationRequestParam) (model.AcquisitionUser, string, error)
 }
 
 func NewLoginAuthenticationInteractor(r repository.LoginAuthenticationRepository) LoginAuthenticationInteractor {
@@ -20,24 +20,26 @@ func NewLoginAuthenticationInteractor(r repository.LoginAuthenticationRepository
 	}
 }
 
-func (i *loginAuthenticationInteractor) LoginAuthentication(req model.LoginAuthenticationRequestParam) (string, error) {
+func (i *loginAuthenticationInteractor) LoginAuthentication(
+	req model.LoginAuthenticationRequestParam,
+) (model.AcquisitionUser, string, error) {
 	var user model.AcquisitionUser
 	var err error
 	var token string
 
 	user, err = i.r.SearchUser(req.Email)
 	if err != nil {
-		return token, err
+		return user, token, err
 	}
 
 	if err := service.IsPasswordMatch(req.Password, user.Password); err != nil {
-		return token, err
+		return user, token, err
 	}
 
 	token, err = service.CreateJWT(user.ID)
 	if err != nil {
-		return token, err
+		return user, token, err
 	}
 
-	return token, nil
+	return user, token, nil
 }
