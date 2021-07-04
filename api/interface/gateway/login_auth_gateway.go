@@ -6,7 +6,6 @@ import (
 	"api/usecase/repository"
 	"api/util"
 	"errors"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -29,8 +28,6 @@ func (g *loginAuthenticationGateway) SearchUser(email string) (model.Acquisition
 	if err := g.db.Table(g.table).Where("email = ?", email).First(&user).Error; err != nil {
 		return user, util.Errorf(util.ErrorCode10003, "", "%w", err)
 	}
-
-	fmt.Printf("user: %#v\n", user)
 
 	if user.ID == 0 {
 		return user, util.Errorf(util.ErrorCode10004, "", "%w", errors.New("user not found."))
