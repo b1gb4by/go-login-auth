@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func IsPasswordMatch(p string, cp string) error {
+func IsPasswordInputMatch(p string, cp string) error {
 	if p != cp {
 		return util.Errorf(util.ErrorCode10000, "", "%w", errors.New("password and retype password do not match."))
 	}

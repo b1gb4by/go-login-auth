@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TestIsPasswordMatch(t *testing.T) {
+func TestIsPasswordInputMatch(t *testing.T) {
 	t.Parallel()
 	type args struct {
 		p  string
@@ -39,7 +39,7 @@ func TestIsPasswordMatch(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			if err := IsPasswordMatch(tt.args.p, tt.args.cp); (err != nil) != tt.wantErr {
+			if err := IsPasswordInputMatch(tt.args.p, tt.args.cp); (err != nil) != tt.wantErr {
 				t.Errorf("IsPasswordMatch() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
