@@ -31,7 +31,7 @@ func (i *registerUserInteractor) RegisterUser(req model.RegisterUserRequestParam
 		Email:     req.Email,
 	}
 
-	if err = service.IsPasswordMatch(req.Password, req.ConfirmPassword); err != nil {
+	if err = service.IsPasswordInputMatch(req.Password, req.ConfirmPassword); err != nil {
 		return err
 	}
 
