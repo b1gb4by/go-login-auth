@@ -68,14 +68,13 @@ func (ctrl *LoginAuthenticationController) LoginAuthentication(w http.ResponseWr
 		errorResponse, status := util.GetErrorResponse(loginAuthenticationAPIID, errorCode)
 		responseJSON(w, status, errorResponse)
 		return
-	} else {
-		cookie := &http.Cookie{
-			Name:     "jwt",
-			Value:    token,
-			Expires:  time.Now().Add(time.Hour * 24),
-			HttpOnly: true,
-		}
-		http.SetCookie(w, cookie)
-		responseJSON(w, http.StatusOK, user)
 	}
+	cookie := &http.Cookie{
+		Name:     "jwt",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 24),
+		HttpOnly: true,
+	}
+	http.SetCookie(w, cookie)
+	responseJSON(w, http.StatusOK, user)
 }
