@@ -13,7 +13,7 @@ type AppConfig struct {
 func NewAppConfig() *AppConfig {
 	c := new(AppConfig)
 
-	if err := envconfig.Process("app", c); err != nil {
+	if err := envconfig.Process("api", c); err != nil {
 		logger := util.NewStdLogger()
 		logger.Fatalf("%s", err)
 	}

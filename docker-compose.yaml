@@ -17,8 +17,8 @@ services:
     depends_on:
       - db
     tty: true
-    # links:
-    #   - smtp
+    links:
+      - smtp
 #   ui:
 #     build:
 #       context: .
