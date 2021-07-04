@@ -25,8 +25,9 @@ func NewRouting(ctrls *controller.AppController, port string) *Routing {
 func (r *Routing) SetRouting() {
 	logger := util.NewStdLogger()
 
-	b := r.Router.PathPrefix("/go_auth").Subrouter()
+	b := r.Router.PathPrefix("/auth").Subrouter()
 
+	b.HandleFunc("/register", r.Controllers.RegisterUser.RegisterUser).Methods(http.MethodPost)
 	b.HandleFunc("/health_check", r.Controllers.HealthCheck.HealthCheck).Methods(http.MethodGet)
 
 	logger.Printf("%s", "Mux Routers Start.")
