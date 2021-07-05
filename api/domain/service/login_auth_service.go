@@ -4,6 +4,7 @@ import (
 	"api/util"
 	"errors"
 	"strconv"
+	"time"
 
 	"github.com/dgrijalva/jwt-go/v4"
 	"golang.org/x/crypto/bcrypt"
@@ -18,7 +19,7 @@ func IsPasswordMatch(inputPassword string, password []byte) error {
 
 func CreateJWT(id int, secret string) (string, error) {
 
-	var expiresAt = jwt.NewTime(60 * 60 * 24)
+	var expiresAt = jwt.NewTime(float64(time.Now().Add(time.Hour * 24).Unix()))
 	var mySigningKey = []byte(secret)
 
 	claims := &jwt.StandardClaims{
