@@ -3,7 +3,7 @@ package service
 import "math/rand"
 
 func CreateRandomString() string {
-	const n = 12
+	const n = 36
 	var letter = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 	b := make([]rune, n)
