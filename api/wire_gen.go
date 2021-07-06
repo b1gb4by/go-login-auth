@@ -16,26 +16,29 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeControllers(db database.Connection, table string, jc *config.JWTConfig) *controller.AppController {
-	registerUserRepository := gateway.NewRegisterUserGateway(db, table)
+func InitializeControllers(db database.Connection, jc *config.JWTConfig) *controller.AppController {
+	registerUserRepository := gateway.NewRegisterUserGateway(db)
 	registerUserInteractor := interactor.NewRegisterUserInteractor(registerUserRepository)
 	registerUserController := controller.NewRegisterUserController(registerUserInteractor)
-	loginAuthenticationRepository := gateway.NewLoginAuthenticationGateway(db, table)
+	loginAuthenticationRepository := gateway.NewLoginAuthenticationGateway(db)
 	loginAuthenticationInteractor := interactor.NewLoginAuthenticationInteractor(loginAuthenticationRepository, jc)
 	loginAuthenticationController := controller.NewLoginAuthenticationController(loginAuthenticationInteractor)
 	logoutController := controller.NewLogoutController()
-	userAuthenticationRepository := gateway.NewUserAuthenticationGateway(db, table)
+	userAuthenticationRepository := gateway.NewUserAuthenticationGateway(db)
 	userAuthenticationInteractor := interactor.NewUserAuthenticationInteractor(userAuthenticationRepository, jc)
 	userAuthenticationController := controller.NewUserAuthenticationController(userAuthenticationInteractor)
+	resetPasswordRepository := gateway.NewResetPasswordGateway(db)
+	resetPasswordInteractor := interactor.NewResetPasswordInteractor(resetPasswordRepository)
+	resetPasswordController := controller.NewResetPasswordController(resetPasswordInteractor)
 	healthCheckController := controller.NewHealthCheckController(db)
-	appController := controller.NewControllers(registerUserController, loginAuthenticationController, logoutController, userAuthenticationController, healthCheckController)
+	appController := controller.NewControllers(registerUserController, loginAuthenticationController, logoutController, userAuthenticationController, resetPasswordController, healthCheckController)
 	return appController
 }
 
 // wire.go:
 
-var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewLogoutController, controller.NewUserAuthenticationController, controller.NewHealthCheckController)
+var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewLogoutController, controller.NewUserAuthenticationController, controller.NewResetPasswordController, controller.NewHealthCheckController)
 
-var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor, interactor.NewLoginAuthenticationInteractor, interactor.NewUserAuthenticationInteractor)
+var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor, interactor.NewLoginAuthenticationInteractor, interactor.NewUserAuthenticationInteractor, interactor.NewResetPasswordInteractor)
 
-var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway, gateway.NewLoginAuthenticationGateway, gateway.NewUserAuthenticationGateway)
+var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway, gateway.NewLoginAuthenticationGateway, gateway.NewUserAuthenticationGateway, gateway.NewResetPasswordGateway)
