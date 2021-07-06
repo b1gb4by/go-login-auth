@@ -13,6 +13,6 @@ type LoginAuthenticationRequestParam struct {
 	Password string `validate:"required" json:"password"`
 }
 
-type ResetPasswordRequestParam struct {
+type ForgotRequestParam struct {
 	Email string `validate:"required" json:"email"`
 }

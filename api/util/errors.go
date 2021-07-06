@@ -92,6 +92,9 @@ func GetErrorResponse(apiID string, ec ErrorCode) (errorResponse, int) {
 	case ErrorCode10007:
 		status = http.StatusUnauthorized
 		res.ErrorMessage = "Unauthorized"
+	case ErrorCode10008:
+		status = http.StatusInternalServerError
+		res.ErrorMessage = "Failed to send to SMTP"
 	default:
 		status = http.StatusInternalServerError
 		res.ErrorMessage = "Unknown error"

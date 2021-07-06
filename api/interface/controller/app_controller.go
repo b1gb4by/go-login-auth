@@ -13,7 +13,7 @@ type AppController struct {
 	LoginAuthentication *LoginAuthenticationController
 	Logout              *LogoutController
 	UserAuthentication  *UserAuthenticationController
-	ResetPassword       *ResetPasswordController
+	Forgot              *ForgotController
 	HealthCheck         *HealthCheckController
 }
 
@@ -22,7 +22,7 @@ func NewControllers(
 	la *LoginAuthenticationController,
 	lo *LogoutController,
 	ua *UserAuthenticationController,
-	rp *ResetPasswordController,
+	f *ForgotController,
 	hc *HealthCheckController,
 ) *AppController {
 	return &AppController{
@@ -30,7 +30,7 @@ func NewControllers(
 		LoginAuthentication: la,
 		Logout:              lo,
 		UserAuthentication:  ua,
-		ResetPassword:       rp,
+		Forgot:              f,
 		HealthCheck:         hc,
 	}
 }

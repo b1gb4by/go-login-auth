@@ -10,19 +10,19 @@ import (
 	"net/http"
 )
 
-const resetPasswordAPIID = "LA05"
+const forgotAPIID = "LA05"
 
-type ResetPasswordController struct {
-	i interactor.ResetPasswordInteractor
+type ForgotController struct {
+	i interactor.ForgotInteractor
 }
 
-func NewResetPasswordController(i interactor.ResetPasswordInteractor) *ResetPasswordController {
-	return &ResetPasswordController{
+func NewForgotController(i interactor.ForgotInteractor) *ForgotController {
+	return &ForgotController{
 		i: i,
 	}
 }
 
-func (ctrl *ResetPasswordController) ResetPassword(w http.ResponseWriter, r *http.Request) {
+func (ctrl *ForgotController) Forgot(w http.ResponseWriter, r *http.Request) {
 	defer panicErrorResponse(w, userRegisterAPIID)
 
 	logger := util.NewStdLogger()
@@ -32,17 +32,17 @@ func (ctrl *ResetPasswordController) ResetPassword(w http.ResponseWriter, r *htt
 	if readErr != nil {
 		e := util.Errorf(util.ErrorCode00002, "", "errorMessage : %w", readErr)
 		logger.Errorf("%s", e)
-		errorResponse, status := util.GetErrorResponse(resetPasswordAPIID, util.ErrorCode00002)
+		errorResponse, status := util.GetErrorResponse(forgotAPIID, util.ErrorCode00002)
 		responseJSON(w, status, errorResponse)
 		return
 	}
 
-	var req model.ResetPasswordRequestParam
+	var req model.ForgotRequestParam
 	JSONErr := json.Unmarshal(b, &req)
 	if JSONErr != nil {
 		e := util.Errorf(util.ErrorCode00003, "", "errorMessage : %w", JSONErr)
 		logger.Errorf("%s", e)
-		errorResponse, status := util.GetErrorResponse(resetPasswordAPIID, util.ErrorCode00003)
+		errorResponse, status := util.GetErrorResponse(forgotAPIID, util.ErrorCode00003)
 		responseJSON(w, status, errorResponse)
 		return
 	}
@@ -54,16 +54,16 @@ func (ctrl *ResetPasswordController) ResetPassword(w http.ResponseWriter, r *htt
 		j, _ := json.Marshal(req)
 		e := util.Errorf(util.ErrorCode00004, string(j), "errorMessage : %w", validErr)
 		logger.Errorf("%s", e)
-		errorResponse, status := util.GetErrorResponse(resetPasswordAPIID, util.GetErrorCode(e))
+		errorResponse, status := util.GetErrorResponse(forgotAPIID, util.GetErrorCode(e))
 		errorResponse.ErrorMessage += " - " + validErr.Error()
 		responseJSON(w, status, errorResponse)
 		return
 	}
 
-	if err := ctrl.i.ResetPassword(req); err != nil {
+	if err := ctrl.i.Forgot(req); err != nil {
 		logger.Errorf("%s", err)
 		errorCode := util.GetErrorCode(err)
-		errorResponse, status := util.GetErrorResponse(resetPasswordAPIID, errorCode)
+		errorResponse, status := util.GetErrorResponse(forgotAPIID, errorCode)
 		responseJSON(w, status, errorResponse)
 		return
 	}

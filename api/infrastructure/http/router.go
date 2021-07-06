@@ -32,7 +32,7 @@ func (r *Routing) SetRouting() {
 	l.HandleFunc("/login", r.Controllers.LoginAuthentication.LoginAuthentication).Methods(http.MethodPost)
 	l.HandleFunc("/logout", r.Controllers.Logout.Logout).Methods(http.MethodGet)
 	l.HandleFunc("/user", r.Controllers.UserAuthentication.UserAuthentication).Methods(http.MethodGet)
-	l.HandleFunc("/reset", r.Controllers.ResetPassword.ResetPassword).Methods(http.MethodPost)
+	l.HandleFunc("/forgot", r.Controllers.Forgot.Forgot).Methods(http.MethodPost)
 	l.HandleFunc("/health_check", r.Controllers.HealthCheck.HealthCheck).Methods(http.MethodGet)
 
 	c := cors.Default().Handler(l)

@@ -9,17 +9,17 @@ import (
 	"gorm.io/gorm"
 )
 
-type resetPasswordGateway struct {
+type forgotGateway struct {
 	db *gorm.DB
 }
 
-func NewResetPasswordGateway(db database.Connection) repository.ResetPasswordRepository {
-	return &resetPasswordGateway{
+func NewForgotGateway(db database.Connection) repository.ForgotRepository {
+	return &forgotGateway{
 		db: db.Auth,
 	}
 }
 
-func (g *resetPasswordGateway) InsertData(resetPassword model.ResetPassword) error {
+func (g *forgotGateway) InsertData(resetPassword model.ResetPassword) error {
 	const table = "reset_password"
 	if err := g.db.Table(table).Create(&resetPassword).Error; err != nil {
 		return util.Errorf(util.ErrorCode10002, "", "%w", err)
