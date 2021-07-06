@@ -26,11 +26,12 @@ func NewRouting(ctrls *controller.AppController, port string) *Routing {
 func (r *Routing) SetRouting() {
 	logger := util.NewStdLogger()
 
-	l := r.Router.PathPrefix("/login").Subrouter()
+	l := r.Router.PathPrefix("/auth").Subrouter()
 
 	l.HandleFunc("/register", r.Controllers.RegisterUser.RegisterUser).Methods(http.MethodPost)
-	l.HandleFunc("/auth", r.Controllers.LoginAuthentication.LoginAuthentication).Methods(http.MethodPost)
-	l.HandleFunc("/auth/user", r.Controllers.UserAuthentication.UserAuthentication).Methods(http.MethodGet)
+	l.HandleFunc("/login", r.Controllers.LoginAuthentication.LoginAuthentication).Methods(http.MethodPost)
+	l.HandleFunc("/logout", r.Controllers.Logout.Logout).Methods(http.MethodGet)
+	l.HandleFunc("/user", r.Controllers.UserAuthentication.UserAuthentication).Methods(http.MethodGet)
 	l.HandleFunc("/health_check", r.Controllers.HealthCheck.HealthCheck).Methods(http.MethodGet)
 
 	c := cors.Default().Handler(l)

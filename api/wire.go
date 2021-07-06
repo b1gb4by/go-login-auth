@@ -16,6 +16,7 @@ var controllerSet = wire.NewSet(
 	controller.NewControllers,
 	controller.NewRegisterUserController,
 	controller.NewLoginAuthenticationController,
+	controller.NewLogoutController,
 	controller.NewUserAuthenticationController,
 	controller.NewHealthCheckController,
 )

@@ -23,17 +23,18 @@ func InitializeControllers(db database.Connection, table string, jc *config.JWTC
 	loginAuthenticationRepository := gateway.NewLoginAuthenticationGateway(db, table)
 	loginAuthenticationInteractor := interactor.NewLoginAuthenticationInteractor(loginAuthenticationRepository, jc)
 	loginAuthenticationController := controller.NewLoginAuthenticationController(loginAuthenticationInteractor)
+	logoutController := controller.NewLogoutController()
 	userAuthenticationRepository := gateway.NewUserAuthenticationGateway(db, table)
 	userAuthenticationInteractor := interactor.NewUserAuthenticationInteractor(userAuthenticationRepository, jc)
 	userAuthenticationController := controller.NewUserAuthenticationController(userAuthenticationInteractor)
 	healthCheckController := controller.NewHealthCheckController(db)
-	appController := controller.NewControllers(registerUserController, loginAuthenticationController, userAuthenticationController, healthCheckController)
+	appController := controller.NewControllers(registerUserController, loginAuthenticationController, logoutController, userAuthenticationController, healthCheckController)
 	return appController
 }
 
 // wire.go:
 
-var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewUserAuthenticationController, controller.NewHealthCheckController)
+var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewLogoutController, controller.NewUserAuthenticationController, controller.NewHealthCheckController)
 
 var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor, interactor.NewLoginAuthenticationInteractor, interactor.NewUserAuthenticationInteractor)
 
