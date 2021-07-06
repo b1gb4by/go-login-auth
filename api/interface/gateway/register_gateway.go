@@ -10,19 +10,18 @@ import (
 )
 
 type registerUserGateway struct {
-	db    *gorm.DB
-	table string
+	db *gorm.DB
 }
 
-func NewRegisterUserGateway(db database.Connection, tn string) repository.RegisterUserRepository {
+func NewRegisterUserGateway(db database.Connection) repository.RegisterUserRepository {
 	return &registerUserGateway{
-		db:    db.Users,
-		table: tn,
+		db: db.Auth,
 	}
 }
 
 func (g *registerUserGateway) InsertData(user model.User) error {
-	if err := g.db.Table(g.table).Create(&user).Error; err != nil {
+	const table = "user"
+	if err := g.db.Table(table).Create(&user).Error; err != nil {
 		return util.Errorf(util.ErrorCode10002, "", "%w", err)
 	}
 	return nil

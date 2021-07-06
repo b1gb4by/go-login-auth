@@ -10,21 +10,20 @@ import (
 )
 
 type userAuthenticationGateway struct {
-	db    *gorm.DB
-	table string
+	db *gorm.DB
 }
 
-func NewUserAuthenticationGateway(db database.Connection, tn string) repository.UserAuthenticationRepository {
+func NewUserAuthenticationGateway(db database.Connection) repository.UserAuthenticationRepository {
 	return &userAuthenticationGateway{
-		db:    db.Users,
-		table: tn,
+		db: db.Auth,
 	}
 }
 
 func (g *userAuthenticationGateway) SearchUser(userID string) (model.AcquisitionUser, error) {
+	const table = "user"
 	var user model.AcquisitionUser
 
-	if err := g.db.Table(g.table).Where("id = ?", userID).First(&user).Error; err != nil {
+	if err := g.db.Table(table).Where("id = ?", userID).First(&user).Error; err != nil {
 		return user, util.Errorf(util.ErrorCode10003, "", "%w", err)
 	}
 

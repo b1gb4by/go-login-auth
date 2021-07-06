@@ -14,7 +14,7 @@ func main() {
 	app := config.NewAppConfig()
 	JWTConfig := config.NewJWTConfig()
 
-	ctrls := InitializeControllers(db, dbConf.Table, JWTConfig)
+	ctrls := InitializeControllers(db, JWTConfig)
 
 	routing := http.NewRouting(ctrls, app.Port)
 	routing.SetRouting()

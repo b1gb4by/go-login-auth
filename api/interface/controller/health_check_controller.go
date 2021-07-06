@@ -9,12 +9,12 @@ import (
 )
 
 type HealthCheckController struct {
-	Users *gorm.DB
+	Auth *gorm.DB
 }
 
 func NewHealthCheckController(db database.Connection) *HealthCheckController {
 	return &HealthCheckController{
-		Users: db.Users,
+		Auth: db.Auth,
 	}
 }
 
@@ -30,7 +30,7 @@ func (c *HealthCheckController) HealthCheck(w http.ResponseWriter, _ *http.Reque
 }
 
 func (c *HealthCheckController) DBHealthCheck() error {
-	sqlDB, err := c.Users.DB()
+	sqlDB, err := c.Auth.DB()
 	if err != nil {
 		return err
 	}
