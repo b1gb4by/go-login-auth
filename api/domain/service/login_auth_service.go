@@ -3,6 +3,7 @@ package service
 import (
 	"api/util"
 	"errors"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -29,6 +30,7 @@ func CreateJWT(id int, secret string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	ss, err := token.SignedString(mySigningKey)
+	fmt.Println(ss)
 	if err != nil {
 		return "", util.Errorf(util.ErrorCode10006, "", "%w", err)
 	}

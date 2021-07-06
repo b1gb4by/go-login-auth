@@ -30,6 +30,7 @@ func (r *Routing) SetRouting() {
 
 	l.HandleFunc("/register", r.Controllers.RegisterUser.RegisterUser).Methods(http.MethodPost)
 	l.HandleFunc("/auth", r.Controllers.LoginAuthentication.LoginAuthentication).Methods(http.MethodPost)
+	l.HandleFunc("/auth/user", r.Controllers.UserAuthentication.UserAuthentication).Methods(http.MethodGet)
 	l.HandleFunc("/health_check", r.Controllers.HealthCheck.HealthCheck).Methods(http.MethodGet)
 
 	c := cors.Default().Handler(l)

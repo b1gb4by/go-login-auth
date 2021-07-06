@@ -63,6 +63,9 @@ func GetErrorResponse(apiID string, ec ErrorCode) (errorResponse, int) {
 	case ErrorCode00005:
 		status = http.StatusServiceUnavailable
 		res.ErrorMessage = "DB connection error"
+	case ErrorCode00006:
+		status = http.StatusUnauthorized
+		res.ErrorMessage = "The specified cookie does not exist"
 
 	// 独自APIエラー
 	case ErrorCode10000:
@@ -84,8 +87,11 @@ func GetErrorResponse(apiID string, ec ErrorCode) (errorResponse, int) {
 		status = http.StatusBadRequest
 		res.ErrorMessage = "Incorrect password"
 	case ErrorCode10006:
-		status = http.StatusInternalServerError
+		status = http.StatusUnprocessableEntity
 		res.ErrorMessage = "Failed to get token"
+	case ErrorCode10007:
+		status = http.StatusUnauthorized
+		res.ErrorMessage = "Unauthorized"
 	default:
 		status = http.StatusInternalServerError
 		res.ErrorMessage = "Unknown error"

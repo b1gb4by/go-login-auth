@@ -11,17 +11,20 @@ import (
 type AppController struct {
 	RegisterUser        *RegisterUserController
 	LoginAuthentication *LoginAuthenticationController
+	UserAuthentication  *UserAuthenticationController
 	HealthCheck         *HealthCheckController
 }
 
 func NewControllers(
 	ru *RegisterUserController,
 	la *LoginAuthenticationController,
+	ua *UserAuthenticationController,
 	hc *HealthCheckController,
 ) *AppController {
 	return &AppController{
 		RegisterUser:        ru,
 		LoginAuthentication: la,
+		UserAuthentication:  ua,
 		HealthCheck:         hc,
 	}
 }

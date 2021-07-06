@@ -6,6 +6,7 @@
 package main
 
 import (
+	"api/config"
 	"api/infrastructure/database"
 	"api/interface/controller"
 	"api/interface/gateway"
@@ -15,22 +16,25 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeControllers(db database.Connection, table string) *controller.AppController {
+func InitializeControllers(db database.Connection, table string, jc *config.JWTConfig) *controller.AppController {
 	registerUserRepository := gateway.NewRegisterUserGateway(db, table)
 	registerUserInteractor := interactor.NewRegisterUserInteractor(registerUserRepository)
 	registerUserController := controller.NewRegisterUserController(registerUserInteractor)
 	loginAuthenticationRepository := gateway.NewLoginAuthenticationGateway(db, table)
-	loginAuthenticationInteractor := interactor.NewLoginAuthenticationInteractor(loginAuthenticationRepository)
+	loginAuthenticationInteractor := interactor.NewLoginAuthenticationInteractor(loginAuthenticationRepository, jc)
 	loginAuthenticationController := controller.NewLoginAuthenticationController(loginAuthenticationInteractor)
+	userAuthenticationRepository := gateway.NewUserAuthenticationGateway(db, table)
+	userAuthenticationInteractor := interactor.NewUserAuthenticationInteractor(userAuthenticationRepository, jc)
+	userAuthenticationController := controller.NewUserAuthenticationController(userAuthenticationInteractor)
 	healthCheckController := controller.NewHealthCheckController(db)
-	appController := controller.NewControllers(registerUserController, loginAuthenticationController, healthCheckController)
+	appController := controller.NewControllers(registerUserController, loginAuthenticationController, userAuthenticationController, healthCheckController)
 	return appController
 }
 
 // wire.go:
 
-var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewHealthCheckController)
+var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewUserAuthenticationController, controller.NewHealthCheckController)
 
-var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor, interactor.NewLoginAuthenticationInteractor)
+var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor, interactor.NewLoginAuthenticationInteractor, interactor.NewUserAuthenticationInteractor)
 
-var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway, gateway.NewLoginAuthenticationGateway)
+var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway, gateway.NewLoginAuthenticationGateway, gateway.NewUserAuthenticationGateway)
