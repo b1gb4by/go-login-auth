@@ -2,7 +2,6 @@ package service
 
 import (
 	"api/util"
-	"fmt"
 	"log"
 
 	"github.com/dgrijalva/jwt-go/v4"
@@ -24,8 +23,6 @@ func GetUserID(t string, secret string) (string, error) {
 
 	claims := token.Claims.(*Claims)
 	userID := claims.Issuer
-
-	fmt.Println("userID: ", userID)
 
 	return userID, nil
 }
