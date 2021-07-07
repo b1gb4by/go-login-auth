@@ -19,6 +19,7 @@ var controllerSet = wire.NewSet(
 	controller.NewLogoutController,
 	controller.NewUserAuthenticationController,
 	controller.NewForgotController,
+	controller.NewResetController,
 	controller.NewHealthCheckController,
 )
 
@@ -27,6 +28,7 @@ var interactorSet = wire.NewSet(
 	interactor.NewLoginAuthenticationInteractor,
 	interactor.NewUserAuthenticationInteractor,
 	interactor.NewForgotInteractor,
+	interactor.NewResetInteractor,
 )
 
 var gatewaySet = wire.NewSet(
@@ -34,6 +36,7 @@ var gatewaySet = wire.NewSet(
 	gateway.NewLoginAuthenticationGateway,
 	gateway.NewUserAuthenticationGateway,
 	gateway.NewForgotGateway,
+	gateway.NewResetGateway,
 )
 
 func InitializeControllers(db database.Connection, jc *config.JWTConfig) *controller.AppController {

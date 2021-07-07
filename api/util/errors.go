@@ -95,6 +95,12 @@ func GetErrorResponse(apiID string, ec ErrorCode) (errorResponse, int) {
 	case ErrorCode10008:
 		status = http.StatusInternalServerError
 		res.ErrorMessage = "Failed to send to SMTP"
+	case ErrorCode10009:
+		status = http.StatusBadRequest
+		res.ErrorMessage = "Invalid token"
+	case ErrorCode10010:
+		status = http.StatusInternalServerError
+		res.ErrorMessage = "Failed to update password"
 	default:
 		status = http.StatusInternalServerError
 		res.ErrorMessage = "Unknown error"

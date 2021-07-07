@@ -30,15 +30,18 @@ func InitializeControllers(db database.Connection, jc *config.JWTConfig) *contro
 	forgotRepository := gateway.NewForgotGateway(db)
 	forgotInteractor := interactor.NewForgotInteractor(forgotRepository)
 	forgotController := controller.NewForgotController(forgotInteractor)
+	resetRepository := gateway.NewResetGateway(db)
+	resetInteractor := interactor.NewResetInteractor(resetRepository)
+	resetController := controller.NewResetController(resetInteractor)
 	healthCheckController := controller.NewHealthCheckController(db)
-	appController := controller.NewControllers(registerUserController, loginAuthenticationController, logoutController, userAuthenticationController, forgotController, healthCheckController)
+	appController := controller.NewControllers(registerUserController, loginAuthenticationController, logoutController, userAuthenticationController, forgotController, resetController, healthCheckController)
 	return appController
 }
 
 // wire.go:
 
-var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewLogoutController, controller.NewUserAuthenticationController, controller.NewForgotController, controller.NewHealthCheckController)
+var controllerSet = wire.NewSet(controller.NewControllers, controller.NewRegisterUserController, controller.NewLoginAuthenticationController, controller.NewLogoutController, controller.NewUserAuthenticationController, controller.NewForgotController, controller.NewResetController, controller.NewHealthCheckController)
 
-var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor, interactor.NewLoginAuthenticationInteractor, interactor.NewUserAuthenticationInteractor, interactor.NewForgotInteractor)
+var interactorSet = wire.NewSet(interactor.NewRegisterUserInteractor, interactor.NewLoginAuthenticationInteractor, interactor.NewUserAuthenticationInteractor, interactor.NewForgotInteractor, interactor.NewResetInteractor)
 
-var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway, gateway.NewLoginAuthenticationGateway, gateway.NewUserAuthenticationGateway, gateway.NewForgotGateway)
+var gatewaySet = wire.NewSet(gateway.NewRegisterUserGateway, gateway.NewLoginAuthenticationGateway, gateway.NewUserAuthenticationGateway, gateway.NewForgotGateway, gateway.NewResetGateway)

@@ -16,3 +16,9 @@ type LoginAuthenticationRequestParam struct {
 type ForgotRequestParam struct {
 	Email string `validate:"required" json:"email"`
 }
+
+type ResetRequestParam struct {
+	Password        string `validate:"required" json:"password"`
+	ConfirmPassword string `validate:"required" json:"confirm_password"`
+	Token           string `validate:"required" json:"token" gorm:"column:token"`
+}
