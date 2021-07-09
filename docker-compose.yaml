@@ -19,17 +19,17 @@ services:
     tty: true
     links:
       - smtp
-#   ui:
-#     build:
-#       context: .
-#       dockerfile: build/ui/Dockerfile
-#     container_name: go-login-auth-ui
-#     image: go-login-auth-ui
-#     ports:
-#       - "${APP_PORT}:${APP_PORT}"
-#     volumes:
-#       - ./ui:/app
-#     command: npm run serve
+  ui:
+    build:
+      context: .
+      dockerfile: build/ui/Dockerfile
+    container_name: go-login-auth-ui
+    image: go-login-auth-ui
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    volumes:
+      - ./ui:/app
+    command: npm run serve
   db:
     build:
       context: .
